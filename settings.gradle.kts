@@ -1,4 +1,4 @@
-rootProject.name = "Storefront"
+rootProject.name = "Storefront Server Ktor"
 
 pluginManagement {
     repositories {
