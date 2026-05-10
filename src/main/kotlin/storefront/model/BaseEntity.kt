@@ -1,11 +1,13 @@
 package haydende.storefront.model
 
-import java.util.Date
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.exposed.v1.core.dao.id.IntIdTable
+import org.jetbrains.exposed.v1.datetime.datetime
 import kotlin.time.Clock
-import kotlin.time.Instant
 
-abstract class BaseEntity(
-    val id: Long,
-    val lastModifiedAt: Instant? = null,
-    val createdAt: Instant = Clock.System.now(),
-)
+abstract class BaseEntity(tableName: String) : IntIdTable(tableName) {
+    val created = datetime("created").default(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()))
+    val lastModified = datetime("last_modified").nullable()
+}
+

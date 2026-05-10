@@ -1,16 +1,10 @@
 package haydende.storefront.model
 
-import kotlin.time.Clock
-import kotlin.time.Instant
-
-class Product(
-    id: Long,
-    lastModifiedAt: Instant,
-    createdAt: Instant = Clock.System.now(),
-    name: String,
-    brand: String,
-    description: String,
-    imageB64: String,
-    price: Double,
-    quantity: Int,
-): BaseEntity(id, lastModifiedAt, createdAt)
+object Product : BaseEntity("products") {
+    val name = text("name")
+    val brand = text("brand")
+    val description = text("description")
+    val imageB64 = text("image_base64")
+    val price = double("price")
+    val quantity = double("quantity")
+}

@@ -1,12 +1,6 @@
 package haydende.storefront.model
 
-import kotlin.time.Clock
-import kotlin.time.Instant
-
-class Order(
-    id: Long,
-    createdAt: Instant = Clock.System.now(),
-    lastModifiedAt: Instant?,
-    val basket: Basket,
-    val user: User,
-): BaseEntity(id, lastModifiedAt, createdAt)
+object Order : BaseEntity("order") {
+    val basket = reference(name = "basket", foreign = Basket, fkName = "basket_id")
+    val user = reference(name = "user", foreign = Users, fkName = "user_id")
+}
