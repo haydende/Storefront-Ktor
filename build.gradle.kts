@@ -20,8 +20,10 @@ dependencies {
     implementation(libs.logback.classic)
 
     implementation(libs.exposed.core)
-    implementation(libs.exposed.jdbc)
+    implementation(libs.exposed.dao)
     implementation(libs.exposed.datetime)
+    implementation(libs.exposed.jdbc)
+    implementation(libs.postgres)
 
     testImplementation(kotlin("test"))
     testImplementation(ktorLibs.server.testHost)

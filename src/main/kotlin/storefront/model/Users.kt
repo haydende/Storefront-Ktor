@@ -1,6 +1,6 @@
 package haydende.storefront.model
 
-object Users : BaseEntity("Users") {
+object Users : BaseTable("Users") {
     val isCustomer = bool("is_customer").default(true)
     val firstName = text("first_name")
     val lastName = text("last_name")

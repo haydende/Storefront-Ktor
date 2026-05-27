@@ -3,4 +3,8 @@ ktor:
     port: 8080
   application:
     modules:
-      - haydende.RoutingKt.configureRouting
+      - haydende.storefront.UserRouteKt.userModule
+
+database:
+  connection-string: jdbc:postgresql://localhost:5432/storefront?user=peegee&password=somepassword
+#  driver-class-name: org.postgres.Driver

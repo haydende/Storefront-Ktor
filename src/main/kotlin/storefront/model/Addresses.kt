@@ -1,6 +1,6 @@
 package haydende.storefront.model
 
-object Address : BaseEntity("addresses") {
+object Addresses : BaseTable("addresses") {
     val user = reference(name = "address_user", foreign = Users, fkName = "user_id")
     val line1 = text("line1")
     val line2 = text("line2")

@@ -1,6 +1,6 @@
 package haydende.storefront.model
 
-object PaymentInfo : BaseEntity("PaymentInfo") {
+object PaymentInfos : BaseTable("PaymentInfo") {
     val user = reference(name = "user", foreign = Users, fkName = "user_id")
     val method = text("method")
     val cardNumber = text("card_number")

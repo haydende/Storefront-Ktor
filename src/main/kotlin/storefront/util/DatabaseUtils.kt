@@ -10,8 +10,20 @@ class DatabaseUtils(environment: ApplicationEnvironment) {
     init {
         connection = Database.connect(
             environment.config.property("database.connection-string").getString(),
-            environment.config.property("database.driver-class-name").getString(),
+//            environment.config.property("database.driver-class-name").getString(),
         )
+    }
+
+    companion object {
+
+        @Volatile
+        private var instance: DatabaseUtils? = null
+
+        fun getInstance(environment: ApplicationEnvironment): DatabaseUtils =
+            instance ?: synchronized(this) {
+                instance ?: DatabaseUtils(environment).also { instance = it }
+            }
+
     }
 
 }

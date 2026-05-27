@@ -1,6 +1,6 @@
 package haydende.storefront.model
 
-object Product : BaseEntity("products") {
+object Products : BaseTable("products") {
     val name = text("name")
     val brand = text("brand")
     val description = text("description")
