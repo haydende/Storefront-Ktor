@@ -3,7 +3,8 @@ ktor:
     port: 8080
   application:
     modules:
-      - haydende.storefront.UserRouteKt.userModule
+      - haydende.storefront.ApplicationKt.main
+      - haydende.storefront.route.UserRouteKt.userModule
 
 database:
   connection-string: jdbc:postgresql://localhost:5432/storefront?user=peegee&password=somepassword

@@ -9,18 +9,16 @@ import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
 class UserService(environment: ApplicationEnvironment) {
 
-    var databaseUtils: DatabaseUtils
+    var databaseUtils: DatabaseUtils = DatabaseUtils.getInstance(environment)
 
     init {
-        this.databaseUtils = DatabaseUtils.getInstance(environment)
-
         transaction {
             SchemaUtils.create(Users)
         }
     }
 
-    fun getUserById(id: Int): User = transaction {
-        User[id]
+    fun getUserById(id: Int): User? = transaction {
+        User.findById(id)
     }
 
     companion object {
