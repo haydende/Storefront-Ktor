@@ -1,11 +1,8 @@
 package haydende.storefront.route
 
-import com.typesafe.config.ConfigException
-import haydende.storefront.model.dao.User
 import haydende.storefront.model.dto.UserDTO
 import haydende.storefront.service.UserService
 import io.ktor.http.HttpStatusCode
-import io.ktor.serialization.JsonConvertException
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationEnvironment
 import io.ktor.server.plugins.BadRequestException
@@ -15,13 +12,10 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
-import io.ktor.util.reflect.instanceOf
-import io.ktor.util.rootCause
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.MissingFieldException
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.slf4j.LoggerFactory
-import kotlin.reflect.KClass
 
 val LOG = LoggerFactory.getLogger("UserRoute")
 
@@ -44,10 +38,11 @@ fun Application.userModule(environment: ApplicationEnvironment) {
                         HttpStatusCode.InternalServerError,
                         "An error occurred while processing this request. Please review the server logs."
                     )
+                    null // ensures result is null or UserDTO
                 }
 
                 if (returned != null) {
-                    call.respond(returned)
+                    call.respond(returned.toDTO())
                 } else {
                     call.respond(HttpStatusCode.NotFound)
                 }
@@ -65,17 +60,7 @@ fun Application.userModule(environment: ApplicationEnvironment) {
                             !userDto.password.isNullOrBlank()
                         )
 
-                        val user = transaction {
-                            User.new {
-                                firstName = userDto.firstName
-                                lastName = userDto.lastName
-                                email = userDto.email
-                                password = userDto.password
-                                phone = userDto.phone
-                                profilePicB64 = userDto.profilePicB64
-                            }
-                        }
-
+                        val user = transaction { userService.saveNewUser(userDto) }
                         call.respond(HttpStatusCode.Created, user.toDTO())
                     }
                 } catch (e: BadRequestException) {
@@ -97,7 +82,6 @@ fun Application.userModule(environment: ApplicationEnvironment) {
                         HttpStatusCode.InternalServerError,
                         "An error occurred while processing this request. Please review the server logs."
                     )
-
                 }
             }
         }
