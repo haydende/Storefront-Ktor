@@ -9,6 +9,7 @@ import io.ktor.server.application.ApplicationEnvironment
 import io.ktor.server.plugins.BadRequestException
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
+import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
@@ -89,10 +90,9 @@ fun Application.userModule(environment: ApplicationEnvironment) {
 
             put("/edit") {
                 try {
-                    val userId = call.parameters["id"]?.toInt()
 
                     call.receive<UpdateUserDTO>().let { user ->
-                        LOG.info("Received updated user details for id: $userId")
+                        LOG.info("Received updated user details for id: ${user.id}")
 
                         val updated = userService.updateUser(user) ?: throw IllegalStateException("User not found")
                         call.respond(HttpStatusCode.Accepted, updated.toDTO())
@@ -113,6 +113,22 @@ fun Application.userModule(environment: ApplicationEnvironment) {
 
                 } catch (e: Exception) {
                     LOG.error("Error creating user", e)
+                    call.respond(
+                        HttpStatusCode.InternalServerError,
+                        "An error occurred while processing this request. Please review the server logs."
+                    )
+                }
+            }
+
+            delete("/delete") {
+                try {
+                    val userId = call.queryParameters["id"]!!.toInt()
+
+                    userService.deleteUser(userId)
+                    call.respond(HttpStatusCode.OK)
+
+                } catch(e: Exception) {
+                    LOG.error("Error deleting user", e)
                     call.respond(
                         HttpStatusCode.InternalServerError,
                         "An error occurred while processing this request. Please review the server logs."

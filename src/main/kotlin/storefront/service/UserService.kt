@@ -37,13 +37,17 @@ class UserService(environment: ApplicationEnvironment) {
     }
 
     fun updateUser(userDto: UpdateUserDTO) = transaction {
-        User.findByIdAndUpdate(userDto.id!!) {
+        User.findByIdAndUpdate(userDto.id) {
             userDto.firstName?.let { firstName -> it.firstName = firstName }
             userDto.lastName?.let { lastName -> it.lastName = lastName }
             userDto.email?.let { email -> it.email = email }
             userDto.phone?.let { phone -> it.phone = phone }
             userDto.profilePicB64?.let { profilePicB64 -> it.profilePicB64 = profilePicB64 }
         }
+    }
+
+    fun deleteUser(userId: Int) = transaction {
+        User[userId].delete()
     }
 
     fun updateUserPassword(userId: Int, password: String) = transaction {
