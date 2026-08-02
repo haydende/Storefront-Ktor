@@ -1,6 +1,7 @@
 package haydende.storefront.route
 
-import haydende.storefront.model.dto.UserDTO
+import haydende.storefront.model.dto.CreateUserDTO
+import haydende.storefront.model.dto.UpdateUserDTO
 import haydende.storefront.service.UserService
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -10,6 +11,7 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
+import io.ktor.server.routing.put
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -50,7 +52,7 @@ fun Application.userModule(environment: ApplicationEnvironment) {
 
             post("/new") {
                 try {
-                    call.receive<UserDTO>().let { userDto ->
+                    call.receive<CreateUserDTO>().let { userDto ->
                         LOG.info("Received user: $userDto")
 
                         require(
@@ -84,6 +86,40 @@ fun Application.userModule(environment: ApplicationEnvironment) {
                     )
                 }
             }
+
+            put("/edit") {
+                try {
+                    val userId = call.parameters["id"]?.toInt()
+
+                    call.receive<UpdateUserDTO>().let { user ->
+                        LOG.info("Received updated user details for id: $userId")
+
+                        val updated = userService.updateUser(user) ?: throw IllegalStateException("User not found")
+                        call.respond(HttpStatusCode.Accepted, updated.toDTO())
+                    }
+
+                } catch (e: BadRequestException) {
+                    val cause = e.cause?.cause as MissingFieldException?
+                    if (cause != null) {
+                        val mfE = cause.cause as MissingFieldException
+                        val missingFields = mfE.missingFields.joinToString(", ")
+                        LOG.error("Required fields missing from request: [$missingFields]")
+                        call.respond(HttpStatusCode.BadRequest, "Missing required fields: [$missingFields]")
+
+                    } else {
+                        LOG.error("Bad request received", e)
+                        call.respond(HttpStatusCode.BadRequest)
+                    }
+
+                } catch (e: Exception) {
+                    LOG.error("Error creating user", e)
+                    call.respond(
+                        HttpStatusCode.InternalServerError,
+                        "An error occurred while processing this request. Please review the server logs."
+                    )
+                }
+            }
+
         }
     }
 }

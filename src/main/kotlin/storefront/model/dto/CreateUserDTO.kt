@@ -3,7 +3,7 @@ package haydende.storefront.model.dto
 import kotlinx.serialization.*
 
 @Serializable
-data class UserDTO(
+data class CreateUserDTO(
     val id: Int? = null,
     val firstName: String,
     val lastName: String,

@@ -2,7 +2,8 @@ package haydende.storefront.service
 
 import haydende.storefront.model.Users
 import haydende.storefront.model.dao.User
-import haydende.storefront.model.dto.UserDTO
+import haydende.storefront.model.dto.CreateUserDTO
+import haydende.storefront.model.dto.UpdateUserDTO
 import haydende.storefront.util.DatabaseUtils
 import haydende.storefront.util.EncryptionUtils
 import io.ktor.server.application.ApplicationEnvironment
@@ -24,14 +25,30 @@ class UserService(environment: ApplicationEnvironment) {
         User.findById(id)
     }
 
-    fun saveNewUser(userDto: UserDTO) = transaction {
+    fun saveNewUser(createUserDto: CreateUserDTO) = transaction {
         User.new {
-            firstName = userDto.firstName
-            lastName = userDto.lastName
-            email = userDto.email
-            password = encryptPassword(userDto.password!!)
-            phone = userDto.phone
-            profilePicB64 = userDto.profilePicB64
+            firstName = createUserDto.firstName
+            lastName = createUserDto.lastName
+            email = createUserDto.email
+            password = encryptPassword(createUserDto.password!!)
+            phone = createUserDto.phone
+            profilePicB64 = createUserDto.profilePicB64
+        }
+    }
+
+    fun updateUser(userDto: UpdateUserDTO) = transaction {
+        User.findByIdAndUpdate(userDto.id!!) {
+            userDto.firstName?.let { firstName -> it.firstName = firstName }
+            userDto.lastName?.let { lastName -> it.lastName = lastName }
+            userDto.email?.let { email -> it.email = email }
+            userDto.phone?.let { phone -> it.phone = phone }
+            userDto.profilePicB64?.let { profilePicB64 -> it.profilePicB64 = profilePicB64 }
+        }
+    }
+
+    fun updateUserPassword(userId: Int, password: String) = transaction {
+        User.findByIdAndUpdate(userId) {
+            it.password = encryptPassword(password)
         }
     }
 

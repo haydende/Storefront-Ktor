@@ -11,6 +11,7 @@ fun Application.main() {
         json(
             Json {
                 ignoreUnknownKeys = true
+                isLenient = true
             }
         )
     }
