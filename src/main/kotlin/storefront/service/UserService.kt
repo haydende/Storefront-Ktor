@@ -1,5 +1,6 @@
 package haydende.storefront.service
 
+import haydende.storefront.exception.UserNotFoundException
 import haydende.storefront.model.Users
 import haydende.storefront.model.dao.User
 import haydende.storefront.model.dto.CreateUserDTO
@@ -51,9 +52,8 @@ class UserService(environment: ApplicationEnvironment) {
     }
 
     fun updateUserPassword(userId: Int, password: String) = transaction {
-        User.findByIdAndUpdate(userId) {
-            it.password = encryptPassword(password)
-        }
+        return@transaction User.findByIdAndUpdate(userId) { it.password = encryptPassword(password) }
+            ?: throw UserNotFoundException("User with id $userId not found")
     }
 
     private fun encryptPassword(password: String): String = encryptionUtils
