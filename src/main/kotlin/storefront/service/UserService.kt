@@ -13,8 +13,8 @@ import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
 class UserService(environment: ApplicationEnvironment) {
 
-    var databaseUtils: DatabaseUtils = DatabaseUtils.getInstance(environment)
-    var encryptionUtils: EncryptionUtils = EncryptionUtils.getInstance(environment)
+    var databaseUtils = DatabaseUtils.getInstance(environment)
+    var encryptionUtils = EncryptionUtils.getInstance(environment)
 
     init {
         transaction {

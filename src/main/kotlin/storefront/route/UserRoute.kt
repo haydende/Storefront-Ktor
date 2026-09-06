@@ -17,10 +17,10 @@ import io.ktor.server.routing.routing
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.slf4j.LoggerFactory
 
-val LOG = LoggerFactory.getLogger("UserRoute")
 
 fun Application.userModule(environment: ApplicationEnvironment) {
 
+    val LOG = LoggerFactory.getLogger("UserRoute")
     val userService = UserService.getInstance(environment)
 
     routing {
@@ -36,7 +36,7 @@ fun Application.userModule(environment: ApplicationEnvironment) {
                 if (returned != null) {
                     call.respond(returned.toDTO())
                 } else {
-                    call.respond(HttpStatusCode.NotFound)
+                    call.respond(HttpStatusCode.NotFound, "No user found with id: $id")
                 }
             }
 

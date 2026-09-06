@@ -1,7 +1,7 @@
 package haydende.storefront
 
+import haydende.storefront.exception.AddressNotFoundException
 import haydende.storefront.exception.UserNotFoundException
-import haydende.storefront.route.LOG
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
@@ -15,9 +15,13 @@ import io.ktor.util.reflect.instanceOf
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.MissingFieldException
 import kotlinx.serialization.json.Json
+import org.slf4j.LoggerFactory
 
 @OptIn(ExperimentalSerializationApi::class)
 fun Application.main() {
+
+    val LOG = LoggerFactory.getLogger("Application")
+
     install(ContentNegotiation) {
         json(
             Json {
@@ -45,6 +49,11 @@ fun Application.main() {
                 LOG.error("Bad request received", e)
                 call.respondText(status = HttpStatusCode.BadRequest, text = e.message ?: "Bad request received. Check server logs for details.")
             }
+        }
+
+        exception<AddressNotFoundException> { call, e ->
+            LOG.error("Address not found", e)
+            call.respond(status = HttpStatusCode.NotFound, message = e.message ?: "Address not found")
         }
 
         exception<UserNotFoundException> { call, e ->
