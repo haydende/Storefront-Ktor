@@ -1,0 +1,60 @@
+### GET request for User with ID
+GET http://localhost:8080/user?id=5
+
+<> 2026-08-02T113635.200.json
+<> 2026-08-02T113617.200.json
+<> 2026-07-19T233835.200.json
+<> 2026-07-19T233337.500.txt
+<> 2026-07-19T130102.500.txt
+
+### POST request for new User with invalid details
+POST http://localhost:8080/user/new
+Content-Type: application/json
+
+{
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "email": "jane@example.com",
+  "password": "secret",
+  "isCustomer": true,
+  "phone": "0123456789"
+}
+
+<> 2026-08-02T113622.201.json
+<> 2026-07-19T130045.201.json
+<> 2026-06-27T111836.201.json
+<> 2026-06-27T111806.400.txt
+<> 2026-06-25T150426.500.txt
+
+### PUT request to update User
+PUT http://localhost:8080/user/edit
+Content-Type: application/json
+
+{
+  "id": null,
+  "lastName": "Janesdottir",
+  "otherField": "Hello there"
+}
+
+<> 2026-08-10T214049.400.txt
+<> 2026-08-06T225217.500.txt
+<> 2026-08-02T135503.500.txt
+<> 2026-08-02T134943.500.txt
+<> 2026-08-02T113720.202.json
+<> 2026-08-02T113558.202.json
+<> 2026-07-28T214848.400.txt
+<> 2026-07-27T213209.400.txt
+
+### POST request to update password
+POST http://localhost:8080/user/update-password
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "password": "somenewpassword"
+}
+
+<> 2026-08-10T215932.404.txt
+
+### DELETE request to remove User
+DELETE http://localhost:8080/user/delete?id=5

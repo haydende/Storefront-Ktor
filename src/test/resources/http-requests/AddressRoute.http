@@ -1,0 +1,76 @@
+### GET addresses for user id
+GET http://localhost:8080/address?userId=1
+
+<> 2026-09-06T205558.404.txt
+<> 2026-09-06T205543.404.txt
+<> 2026-09-06T205507.500.txt
+
+### POST valid new address
+POST http://localhost:8080/address/new
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "line1": "1 Street Lane",
+  "city": "London",
+  "country": "United Kingdom",
+  "province": "London",
+  "postCode": "LO1 D0N",
+  "isDefault": true
+}
+
+<> 2026-09-01T154752.201.json
+
+### POST invalid new address
+POST http://localhost:8080/address/new
+Content-Type: application/json
+
+{
+  "userId": 999,
+  "line1": "1 Street Lane",
+  "city": "London",
+  "country": "London",
+  "province": "Greater London",
+  "postCode": "LO1 D0N",
+  "isDefault": false
+}
+
+<> 2026-09-05T205144.400.txt
+<> 2026-09-01T155030.500.txt
+
+### PUT minimal update for existing address
+PUT http://localhost:8080/address/edit
+Content-Type: application/json
+
+{
+  "id": 1,
+  "line1": "2 Street Road"
+}
+
+<> 2026-09-05T205924.202.json
+<> 2026-09-05T205725.500.txt
+
+### PUT update for non-existing address
+PUT http://localhost:8080/address/edit
+Content-Type: application/json
+
+{
+  "id": 999,
+  "line1": "2 Street Road"
+}
+
+<> 2026-09-05T221443.404.txt
+<> 2026-09-05T214934.500.txt
+<> 2026-09-05T212022.500.txt
+
+### DELETE existing address
+DELETE http://localhost:8080/address/delete?id=2
+
+<> 2026-09-06T205230.404.txt
+<> 2026-09-06T205218.404.txt
+
+### DELETE non-existing address
+DELETE http://localhost:8080/address/delete?id=999
+
+<> 2026-09-06T205213.404.txt
+<> 2026-09-06T204738.500.txt
