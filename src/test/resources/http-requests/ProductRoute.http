@@ -1,0 +1,68 @@
+### GET Product with ID
+GET http://localhost:8080/product?id=5
+
+### POST new Product
+POST http://localhost:8080/product/new
+Content-Type: application/json
+
+{
+  "name": "Product Name",
+  "brand": "Brandco",
+  "description": "This product is very useful for doing things.",
+  "imageBase64": "THISISB4S364IPROMISE",
+  "price": 2.01,
+  "quantity": 500
+}
+
+### POST new Product with invalid details
+POST http://localhost:8080/product/new
+Content-Type: application/json
+
+{
+  "brand": "Brandco",
+  "description": "This product is very useful for doing things.",
+  "imageBase64": "THISISB4S364IPROMISE",
+  "price": 2.00,
+  "quantity": 500
+}
+
+### POST new Product with ID field
+POST http://localhost:8080/product/new
+Content-Type: application/json
+
+# Works because it ignores id field - should I allow that?
+{
+  "id": 10,
+  "name": "Product Name",
+  "brand": "Brandco",
+  "description": "This shouldn't work",
+  "imageBase64": "IMAGINETHERE'SB64HERE",
+  "price": 2.00,
+  "quantity": 1000
+}
+
+### PUT update for existing Product
+PUT http://localhost:8080/product/edit
+Content-Type: application/json
+
+{
+  "id": 1,
+  "description": "With the new improved formula, you can use this product more usefully",
+  "price": 3.50,
+  "otherField": "Nothing to see here - just parsing by"
+}
+
+### PUT update for non-existing Product
+PUT http://localhost:8080/product/edit
+Content-Type: application/json
+
+{
+  "id": 999,
+  "description": "This won't work"
+}
+
+### DELETE existing Product
+DELETE http://localhost:8080/product/delete?id=5
+
+### DELETE non-existing Product
+DELETE http://localhost:8080/product/delete?id=999

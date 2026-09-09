@@ -1,4 +1,4 @@
-package haydende.storefront.model
+package haydende.storefront.model.table
 
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime

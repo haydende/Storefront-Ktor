@@ -1,13 +1,14 @@
 package haydende.storefront.service
 
 import haydende.storefront.exception.UserNotFoundException
-import haydende.storefront.model.Users
+import haydende.storefront.model.table.UserTable
 import haydende.storefront.model.dao.User
 import haydende.storefront.model.dto.CreateUserDTO
 import haydende.storefront.model.dto.UpdateUserDTO
 import haydende.storefront.util.DatabaseUtils
 import haydende.storefront.util.EncryptionUtils
 import io.ktor.server.application.ApplicationEnvironment
+import org.jetbrains.exposed.v1.dao.exceptions.EntityNotFoundException
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
@@ -18,7 +19,7 @@ class UserService(environment: ApplicationEnvironment) {
 
     init {
         transaction {
-            SchemaUtils.create(Users)
+            SchemaUtils.create(UserTable)
         }
     }
 
@@ -48,7 +49,12 @@ class UserService(environment: ApplicationEnvironment) {
     }
 
     fun deleteUser(userId: Int) = transaction {
-        User[userId].delete()
+        try {
+           User[userId].delete()
+        } catch (enf: EntityNotFoundException) {
+            LOG.error("User with ID $userId not found. Rethrowing as UserNotFoundException:", enf)
+            throw UserNotFoundException("User with ID $userId not found", enf)
+        }
     }
 
     fun updateUserPassword(userId: Int, password: String) = transaction {
@@ -64,6 +70,7 @@ class UserService(environment: ApplicationEnvironment) {
 
         @Volatile
         private var instance: UserService? = null
+        private val LOG = org.slf4j.LoggerFactory.getLogger(UserService::class.java)
 
         fun getInstance(environment: ApplicationEnvironment): UserService =
             instance ?: synchronized(this) {

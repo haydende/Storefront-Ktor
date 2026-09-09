@@ -1,7 +1,7 @@
-package haydende.storefront.model
+package haydende.storefront.model.table
 
-object PaymentInfos : BaseTable("PaymentInfo") {
-    val user = reference(name = "user", foreign = Users, fkName = "user_id")
+object PaymentInfoTable : BaseTable("PaymentInfo") {
+    val user = reference(name = "user", foreign = UserTable, fkName = "user_id")
     val method = text("method")
     val cardNumber = text("card_number")
     val expiryDate = text("expiry_date")

@@ -6,6 +6,7 @@ ktor:
       - haydende.storefront.ApplicationKt.main
       - haydende.storefront.route.UserRouteKt.userModule
       - haydende.storefront.route.AddressRouteKt.addressModule
+      - haydende.storefront.route.ProductRouteKt.productModule
 
 database:
   connection-string: jdbc:postgresql://localhost:5432/storefront?user=peegee&password=somepassword

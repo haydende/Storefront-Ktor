@@ -1,8 +1,8 @@
 package haydende.storefront.service
 
 import haydende.storefront.exception.AddressNotFoundException
-import haydende.storefront.model.Addresses
-import haydende.storefront.model.Users
+import haydende.storefront.model.table.AddressTable
+import haydende.storefront.model.table.UserTable
 import haydende.storefront.model.dao.Address
 import haydende.storefront.model.dto.CreateAddressDTO
 import haydende.storefront.model.dto.UpdateAddressDTO
@@ -20,17 +20,17 @@ class AddressService(environment: ApplicationEnvironment) {
 
     init {
         transaction {
-            SchemaUtils.create(Addresses)
+            SchemaUtils.create(AddressTable)
         }
     }
 
     fun getAddressesForUserId(id: Int) = transaction {
-        Address.find { Addresses.user eq id }.toList()
+        Address.find { AddressTable.user eq id }.toList()
     }
 
     fun saveNewAddress(addressDto: CreateAddressDTO) = transaction {
         Address.new {
-            user = EntityID(addressDto.userId, Users)
+            user = EntityID(addressDto.userId, UserTable)
             line1 = addressDto.line1
             addressDto.line2?.let { line2 = it }
             addressDto.line3?.let { line3 = it }
@@ -61,7 +61,7 @@ class AddressService(environment: ApplicationEnvironment) {
             Address[addressId].delete()
         } catch (enf: EntityNotFoundException) {
             LOG.error("Address with ID $addressId not found. Rethrowing as AddressNotFoundException:", enf)
-            throw AddressNotFoundException("Address with ID $addressId not found")
+            throw AddressNotFoundException("Address with ID $addressId not found", enf)
         }
     }
 

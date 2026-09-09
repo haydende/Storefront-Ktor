@@ -1,7 +1,7 @@
-package haydende.storefront.model
+package haydende.storefront.model.table
 
-object Addresses : BaseTable("addresses") {
-    val user = reference(name = "user_id", foreign = Users, fkName = "addresses_user_id_fkey")
+object AddressTable : BaseTable("addresses") {
+    val user = reference(name = "user_id", foreign = UserTable, fkName = "addresses_user_id_fkey")
     val line1 = text("line_1")
     val line2 = text("line_2").nullable()
     val line3 = text("line_3").nullable()
