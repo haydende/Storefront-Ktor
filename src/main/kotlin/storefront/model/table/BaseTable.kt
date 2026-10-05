@@ -7,7 +7,6 @@ import org.jetbrains.exposed.v1.datetime.datetime
 import kotlin.time.Clock
 
 abstract class BaseTable(tableName: String) : IntIdTable(tableName) {
-    val created = datetime("created").default(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()))
+    val created = datetime("created").default(Clock.System.now().toLocalDateTime(TimeZone.UTC))
     val lastModified = datetime("last_modified").nullable()
 }
-

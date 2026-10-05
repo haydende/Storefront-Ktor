@@ -1,7 +1,7 @@
 package haydende.storefront.model.dao
 
 import haydende.storefront.model.table.ProductTable
-import haydende.storefront.model.dto.CreateProductDTO
+import haydende.storefront.model.dto.UpdateProductDTO
 import org.jetbrains.exposed.v1.core.dao.id.EntityID
 import org.jetbrains.exposed.v1.dao.IntEntity
 import org.jetbrains.exposed.v1.dao.IntEntityClass
@@ -17,7 +17,7 @@ class Product(id: EntityID<Int>): IntEntity(id) {
     var price by ProductTable.price
     var quantity by ProductTable.quantity
 
-    fun toDTO() = CreateProductDTO(
+    fun toDTO() = UpdateProductDTO(
         id = id.value,
         name = name,
         brand = brand,

@@ -1,0 +1,65 @@
+### GET Basket with ID
+GET http://localhost:8080/basket?id=1
+
+### POST new Basket
+POST http://localhost:8080/basket/new
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "products": [
+    {
+      "id": 1,
+      "name": "Product Name",
+      "brand": "Brandco",
+      "description": "This product is very useful for doing things.",
+      "imageBase64": "THISISB4S364IPROMISE",
+      "price": 2.01,
+      "quantity": 50
+    },
+    {
+      "id": 2,
+      "name": "Second product name",
+      "brand": "Item Seller",
+      "description": "This product should be purchased.",
+      "imageBase64": "NOPE",
+      "price": 3.99,
+      "quantity": 2
+    }
+  ]
+}
+
+### PUT update for existing Basket
+PUT http://localhost:8080/basket/edit
+Content-Type: application/json
+
+{
+  "id": 48,
+  "status": "closed",
+  "products": [
+    {
+      "basketId": 48,
+      "productId": 1,
+      "quantity": 25
+    }
+  ]
+}
+
+### PUT update for non-existing Basket
+PUT http://localhost:8080/basket/edit
+Content-Type: application/json
+
+{
+  "id": 999,
+  "products": [
+    {
+      "id": 1
+    }
+  ]
+}
+
+### DELETE existing Basket
+DELETE http://localhost:8080/basket/delete?id=46
+
+### DELETE non-existing Basket
+DELETE http://localhost:8080/basket/delete?id=999

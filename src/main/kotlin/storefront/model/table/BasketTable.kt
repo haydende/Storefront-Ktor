@@ -1,5 +1,6 @@
 package haydende.storefront.model.table
 
-object BasketTable : BaseTable("basket") {
-    val products = reference(name = "products", foreign = ProductTable, fkName = "basket_id")
+object BasketTable : BaseTable("baskets") {
+    val user = reference(name = "user_id", foreign = UserTable, fkName = "baskets_user_id_fkey")
+    val status = text("status")
 }

@@ -10,5 +10,5 @@ data class UpdateProductDTO(
     val price: Double? = null, // preserve 2 decimal places
     val description: String? = null,
     val imageBase64: String? = null,
-    val quantity: Int? = null
+    val quantity: Int
 )
