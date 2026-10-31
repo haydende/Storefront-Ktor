@@ -1,6 +1,6 @@
 package haydende.storefront.route
 
-import haydende.storefront.exception.ProductNotFoundException
+import haydende.storefront.exception.RecordNotFoundException
 import haydende.storefront.model.dto.CreateProductDTO
 import haydende.storefront.model.dto.UpdateProductDTO
 import haydende.storefront.service.ProductService
@@ -51,7 +51,7 @@ fun Application.productModule(environment: ApplicationEnvironment) {
                 call.receive<UpdateProductDTO>().let { productDto ->
                     LOG.info("Received updated product details for id: ${productDto.id}")
 
-                    val updated = productService.updateProduct(productDto) ?: throw ProductNotFoundException("Product with ID ${productDto.id} not found")
+                    val updated = productService.updateProduct(productDto) ?: throw RecordNotFoundException("Product with ID ${productDto.id} not found")
                     call.respond(HttpStatusCode.Accepted, updated.toDTO())
                 }
             }

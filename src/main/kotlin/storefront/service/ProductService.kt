@@ -1,6 +1,6 @@
 package haydende.storefront.service
 
-import haydende.storefront.exception.ProductNotFoundException
+import haydende.storefront.exception.RecordNotFoundException
 import haydende.storefront.model.table.ProductTable
 import haydende.storefront.model.dao.Product
 import haydende.storefront.model.dto.CreateProductDTO
@@ -43,7 +43,7 @@ class ProductService(environment: ApplicationEnvironment) {
             productDto.description?.let { description -> it.description = description }
             productDto.imageBase64?.let { imageBase64 -> it.imageB64 = imageBase64 }
             productDto.price?.let { price -> it.price = price }
-            productDto.quantity?.let { quantity -> it.quantity = quantity }
+            productDto.quantity.let { quantity -> it.quantity = quantity }
         }
     }
 
@@ -52,7 +52,7 @@ class ProductService(environment: ApplicationEnvironment) {
             Product[productId].delete()
         } catch (enf: EntityNotFoundException) {
             LOG.error("Product with ID $productId not found. Rethrowing as ProductNotFoundException:", enf)
-            throw ProductNotFoundException("Product with ID $productId not found", enf)
+            throw RecordNotFoundException("Product with ID $productId not found", enf)
         }
     }
 

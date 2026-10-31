@@ -1,6 +1,6 @@
 package haydende.storefront.route
 
-import haydende.storefront.exception.UserNotFoundException
+import haydende.storefront.exception.RecordNotFoundException
 import haydende.storefront.model.dto.CreateUserDTO
 import haydende.storefront.model.dto.UpdateUserDTO
 import haydende.storefront.service.UserService
@@ -62,7 +62,7 @@ fun Application.userModule(environment: ApplicationEnvironment) {
                 call.receive<UpdateUserDTO>().let { user ->
                     LOG.info("Received updated user details for id: ${user.id}")
 
-                    val updated = userService.updateUser(user) ?: throw UserNotFoundException("User with ID ${user.id} not found")
+                    val updated = userService.updateUser(user) ?: throw RecordNotFoundException("User with ID ${user.id} not found")
                     call.respond(HttpStatusCode.Accepted, updated.toDTO())
                 }
             }

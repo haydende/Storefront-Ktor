@@ -1,6 +1,6 @@
 package haydende.storefront.service
 
-import haydende.storefront.exception.BasketNotFoundException
+import haydende.storefront.exception.RecordNotFoundException
 import haydende.storefront.model.dao.Basket
 import haydende.storefront.model.dao.BasketProduct
 import haydende.storefront.model.dao.Product
@@ -86,8 +86,8 @@ class BasketService(environment: ApplicationEnvironment) {
             BasketProduct.find { BasketProductsTable.basket eq basketId }.forEach { it.delete() }
             Basket[basketId].delete()
         } catch (enf: EntityNotFoundException) {
-            LOG.error("Basket with ID $basketId not found. Rethrowing as BasketNotFoundException")
-            throw BasketNotFoundException("Basket with ID $basketId not found", enf)
+            LOG.error("Basket with ID $basketId not found. Rethrowing as RecordNotFoundException")
+            throw RecordNotFoundException("Basket with ID $basketId not found", enf)
         }
     }
 

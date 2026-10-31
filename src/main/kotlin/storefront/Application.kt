@@ -1,8 +1,6 @@
 package haydende.storefront
 
-import haydende.storefront.exception.AddressNotFoundException
-import haydende.storefront.exception.ProductNotFoundException
-import haydende.storefront.exception.UserNotFoundException
+import haydende.storefront.exception.RecordNotFoundException
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
@@ -52,19 +50,9 @@ fun Application.main() {
             }
         }
 
-        exception<AddressNotFoundException> { call, e ->
-            LOG.error("Address not found", e)
+        exception<RecordNotFoundException> { call, e ->
+            LOG.error("Record not found", e)
             call.respond(status = HttpStatusCode.NotFound, message = e.message ?: "Address not found")
-        }
-
-        exception<ProductNotFoundException> { call, e ->
-            LOG.error("Product not found", e)
-            call.respond(status = HttpStatusCode.NotFound, message = e.message ?: "Product not found")
-        }
-
-        exception<UserNotFoundException> { call, e ->
-            LOG.error("User not found", e)
-            call.respond(status = HttpStatusCode.NotFound, message = e.message ?: "User not found")
         }
 
         exception<Exception> { call, cause ->

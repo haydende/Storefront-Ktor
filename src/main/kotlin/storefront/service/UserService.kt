@@ -1,6 +1,6 @@
 package haydende.storefront.service
 
-import haydende.storefront.exception.UserNotFoundException
+import haydende.storefront.exception.RecordNotFoundException
 import haydende.storefront.model.table.UserTable
 import haydende.storefront.model.dao.User
 import haydende.storefront.model.dto.CreateUserDTO
@@ -53,13 +53,13 @@ class UserService(environment: ApplicationEnvironment) {
            User[userId].delete()
         } catch (enf: EntityNotFoundException) {
             LOG.error("User with ID $userId not found. Rethrowing as UserNotFoundException:", enf)
-            throw UserNotFoundException("User with ID $userId not found", enf)
+            throw RecordNotFoundException("User with ID $userId not found", enf)
         }
     }
 
     fun updateUserPassword(userId: Int, password: String) = transaction {
         return@transaction User.findByIdAndUpdate(userId) { it.password = encryptPassword(password) }
-            ?: throw UserNotFoundException("User with id $userId not found")
+            ?: throw RecordNotFoundException("User with id $userId not found")
     }
 
     private fun encryptPassword(password: String): String = encryptionUtils

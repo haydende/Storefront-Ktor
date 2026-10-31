@@ -1,6 +1,6 @@
 package haydende.storefront.route
 
-import haydende.storefront.exception.BasketNotFoundException
+import haydende.storefront.exception.RecordNotFoundException
 import haydende.storefront.model.dto.CreateBasketDTO
 import haydende.storefront.model.dto.UpdateBasketDTO
 import haydende.storefront.service.BasketService
@@ -52,7 +52,7 @@ fun Application.basketModule(environment: ApplicationEnvironment) {
                 call.receive<UpdateBasketDTO>().let { basketDto ->
                     LOG.info("Received updated basket details for id: ${basketDto.id}")
 
-                    val updated = basketService.updateBasket(basketDto) ?: throw BasketNotFoundException("Basket with ID ${basketDto.id} not found")
+                    val updated = basketService.updateBasket(basketDto) ?: throw RecordNotFoundException("Basket with ID ${basketDto.id} not found")
                     call.respond(HttpStatusCode.Accepted, updated.toDTO())
                 }
             }

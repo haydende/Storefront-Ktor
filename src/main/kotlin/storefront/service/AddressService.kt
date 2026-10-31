@@ -1,6 +1,6 @@
 package haydende.storefront.service
 
-import haydende.storefront.exception.AddressNotFoundException
+import haydende.storefront.exception.RecordNotFoundException
 import haydende.storefront.model.table.AddressTable
 import haydende.storefront.model.table.UserTable
 import haydende.storefront.model.dao.Address
@@ -53,7 +53,7 @@ class AddressService(environment: ApplicationEnvironment) {
             addressDto.postalCode?.let { address.postalCode = it }
             addressDto.isDefault?.let { address.isDefault = it }
 
-        } ?: throw AddressNotFoundException("Address with ID ${addressDto.id} not found")
+        } ?: throw RecordNotFoundException("Address with ID ${addressDto.id} not found")
     }
 
     fun deleteAddress(addressId: Int) = transaction {
@@ -61,7 +61,7 @@ class AddressService(environment: ApplicationEnvironment) {
             Address[addressId].delete()
         } catch (enf: EntityNotFoundException) {
             LOG.error("Address with ID $addressId not found. Rethrowing as AddressNotFoundException:", enf)
-            throw AddressNotFoundException("Address with ID $addressId not found", enf)
+            throw RecordNotFoundException("Address with ID $addressId not found", enf)
         }
     }
 
