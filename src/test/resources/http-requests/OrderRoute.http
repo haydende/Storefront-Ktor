@@ -1,0 +1,30 @@
+### GET Order with ID
+GET http://localhost:8080/order?id=1
+
+### GET Orders for User with ID
+GET http://localhost:8080/order/user?userId=4
+
+### POST new Order
+POST http://localhost:8080/order/new
+Content-Type: application/json
+
+{
+  "userId": 4,
+  "addressId": 5,
+  "paymentInfoId": 11,
+  "basketId": 49
+}
+
+### PUT an update for an Order
+PUT http://localhost:8080/order/edit
+Content-Type: application/json
+
+{
+  "id": 18,
+  "paymentInfoId": 1,
+  "basketId": 1,
+  "status": "open"
+}
+
+### DELETE Order by ID
+DELETE http://localhost:8080/order/delete?id=17

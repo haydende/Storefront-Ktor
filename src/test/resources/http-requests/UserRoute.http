@@ -1,5 +1,5 @@
 ### GET request for User with ID
-GET http://localhost:8080/user?id=5
+GET http://localhost:8080/user?id=4
 
 <> 2026-08-02T113635.200.json
 <> 2026-08-02T113617.200.json
@@ -57,4 +57,4 @@ Content-Type: application/json
 <> 2026-08-10T215932.404.txt
 
 ### DELETE request to remove User
-DELETE http://localhost:8080/user/delete?id=5
+DELETE http://localhost:8080/user/delete?id=999

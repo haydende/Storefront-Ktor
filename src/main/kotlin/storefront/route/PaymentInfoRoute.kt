@@ -51,7 +51,7 @@ fun Application.paymentInfoModule(environment: ApplicationEnvironment) {
                 if (returned.isNotEmpty()) {
                     call.respond(returned.map { it.toDTO() })
                 } else {
-                    call.respond(emptyList<UpdatePaymentInfoDTO>())
+                    call.respond(HttpStatusCode.NotFound, "No PaymentInfo found for User with ID: $userId")
                 }
             }
 

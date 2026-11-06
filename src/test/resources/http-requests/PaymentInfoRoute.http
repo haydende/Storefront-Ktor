@@ -2,14 +2,14 @@
 GET http://localhost:8080/paymentinfo?id=9
 
 ### GET all PaymentInfo records for User
-GET http://localhost:8080/paymentinfo/user?userId=1
+GET http://localhost:8080/paymentinfo/user?userId=4
 
 ### POST new PaymentInfo
 POST http://localhost:8080/paymentinfo/new
 Content-Type: application/json
 
 {
-  "userId": 1,
+  "userId": 4,
   "accountNumber": "1234567890",
   "cardNumber": "1234567890",
   "cvv": "000",

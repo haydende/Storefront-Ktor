@@ -39,6 +39,20 @@ fun Application.basketModule(environment: ApplicationEnvironment) {
                 }
             }
 
+            get("/user") {
+                val id = call.queryParameters["userId"]?.toInt() ?: throw IllegalArgumentException("userId is required")
+                val returned = id.let {
+                    LOG.info("Getting baskets for User with ID: $id")
+                    basketService.getBasketsByUserId(id)
+                }
+
+                if (returned.isNotEmpty()) {
+                    call.respond(returned.map { it.toDTO() })
+                } else {
+                    call.respond(HttpStatusCode.NotFound, "No Basket found for User with ID: $id")
+                }
+            }
+
             post("/new") {
                 call.receive<CreateBasketDTO>().let { basketDto ->
                     LOG.info("Received new basket: $basketDto")

@@ -1,12 +1,15 @@
 ### GET Basket with ID
 GET http://localhost:8080/basket?id=1
 
+### GET Baskets for User ID
+GET http://localhost:8080/basket/user?userId=4
+
 ### POST new Basket
 POST http://localhost:8080/basket/new
 Content-Type: application/json
 
 {
-  "userId": 1,
+  "userId": 4,
   "products": [
     {
       "id": 1,

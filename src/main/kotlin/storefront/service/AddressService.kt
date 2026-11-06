@@ -24,6 +24,10 @@ class AddressService(environment: ApplicationEnvironment) {
         }
     }
 
+    fun getAddressById(id: Int): Address? = transaction {
+        Address.findById(id)
+    }
+
     fun getAddressesForUserId(id: Int) = transaction {
         Address.find { AddressTable.user eq id }.toList()
     }

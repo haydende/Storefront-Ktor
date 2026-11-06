@@ -36,7 +36,7 @@ fun Application.addressModule(environment: ApplicationEnvironment) {
                 }
 
                 if (returned.isNotEmpty()) {
-                    call.respond(returned)
+                    call.respond(returned.map { it.toDTO() })
                 } else {
                     call.respond(HttpStatusCode.NotFound, "No addresses found for user ID: $userId")
                 }

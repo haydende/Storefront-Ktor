@@ -35,6 +35,10 @@ class BasketService(environment: ApplicationEnvironment) {
         Basket.findById(id)
     }
 
+    fun getBasketsByUserId(userId: Int) = transaction {
+        Basket.find { BasketTable.user eq userId }.toList()
+    }
+
     fun saveNewBasket(createBasketDto: CreateBasketDTO) = transaction {
         val created = Basket.new {
             user = EntityID(createBasketDto.userId, UserTable)
